@@ -30,6 +30,19 @@ class Ekantin_waiter extends CI_Controller
     public function waiter_dash()
     {
         $data['menu'] = $this->model_system->tampil_menu();
-        $this->load->view('kasir/kas_dash',$data);
+        $this->load->view('waiter/wai_dash',$data);
+    }
+
+    // membuka halaman pemesanan
+    public function waiter_order()
+    {
+        $data['order'] = $this->model_system->tampil_order();
+        $this->load->view('waiter/wai_ord',$data);
+    }
+
+    // insert order ke db
+    public function waiter_insertorder()
+    {
+        $this->model_system->insert_order();
     }
 }

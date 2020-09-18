@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ekantin - kasir</title>
+    <title>ekantin - orders</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php echo base_url('asset/vendor/fontawesome-free/css/all.css') ?>" rel="stylesheet" type="text/css">
@@ -29,7 +29,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php $this->load->view('template/admin/sidebar_kasir') ?>
+        <?php $this->load->view('template/admin/sidebar_waiter') ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -47,7 +47,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">transaksi</h1>
+                        <h1 class="h3 mb-0 text-gray-800">pemesanan</h1>
                     </div>
                     <!-- end Page Heading -->
 
@@ -82,7 +82,7 @@
                                                     <th>ID waiter</th>
                                                     <th>menu</th>
                                                     <th>harga</th>
-                                                    <th>keterangan tambahan</th>
+                                                    <th>keterangan</th>
                                                     <th>modifikasi</th>
                                                 </tr>
                                             </thead>
@@ -96,7 +96,7 @@
                                                     <th>ID waiter</th>
                                                     <th>menu</th>
                                                     <th>harga</th>
-                                                    <th>keterangan tambahan</th>
+                                                    <th>keterangan</th>
                                                     <th>modifikasi</th>
                                                 </tr>
                                             </tfoot>
@@ -116,16 +116,15 @@
                                                         <td><?php echo $orders->harga ?></td>
                                                         <td><?php echo $orders->keterangan ?></td>
                                                         <td>
-                                                            <a class="btn btn-sm btn-primary" href="javascript:;" data-toggle="modal" data-target="#konfirm_data" 
+                                                            <a class="btn btn-sm btn-primary" href="javascript:;" data-toggle="modal" data-target="#edit-data" 
                                                             data-id="<?= $orders->id_order ?>" 
                                                             data-usernama="<?= $orders->no_meja ?>" 
-                                                            data-pemesan="<?= $orders->nama_pemesan ?>" 
-                                                            data-jumlah="<?= $orders->jumlah_pesan ?>" 
+                                                            data-pw="<?= $orders->nama_pemesan ?>" 
+                                                            data-nama="<?= $orders->jumlah_pesan ?>" 
                                                             data-level="<?= $orders->id_user ?>"
-                                                            data-masakan="<?=$orders->nama_masakan ?>"
-                                                            data-harga="<?=$orders->harga ?>"
-                                                            data-keterangan="<?=$orders->keterangan ?>">
-                                                            <i class="fas fa-money-bill-wave-alt"></i><span> bayar</span>
+                                                            data-masakan="<?=$orders->nama_masakan?>"
+                                                            data-keterangan="<?=$orders->keterangan?>">
+                                                                <i class="fa fa-search-plus"></i><span>edit</span>
                                                             </a>
                                                             <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#hapus-data"><i class="fa fa-trash"></i>cancel</button>
                                                         </td>
@@ -188,36 +187,61 @@
     </div>
     <!-- end Logout Modal -->
 
-    <!-- insert user Modal-->
-    <div class="modal fade" id="konfirm_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- edit user Modal-->
+    <div class="modal fade" id="edit-data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">insert user</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">edit user</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body"> konfirmasi pembayaran ini?
-                    <form action="<?php echo site_url('ekantin_kasir/kasir_bayar') ?>" method="post">
-                        <input type="text" id="id_pesanan" name="order_id" class="form-control" hidden>
-                        <input type="text" id="user_name" name="usname" class="form-control" hidden>
-                        <input type="text" id="nama_pemesan" name="pemesan" class="form-control" hidden>
-                        <input type="number" id="jml_pesan" name="jum" class="form-control" hidden>
-                        <input type="text" id="level_user" name="level_id" class="form-control" hidden>
-                        <input type="text" id="menu" name="nama_menu" class="form-control" hidden>
-                        <input type="number" id="har_men" name="harga_menu" class="form-control" hidden>
-                        <input type="text" id="ket" name="ket_menu" class="form-control" hidden>
+                <div class="modal-body">
+                    <form action="<?php echo site_url('ekantin_controller/admin_updateuser') ?>" method="post" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">username</label>
+                                <input type="text" id="id_user" name="id" class="form-control" hidden>
+                                <input type="text" id="user_name" name="usernama" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">password</label>
+                                <input type="password" id="password_user" name="pw" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">nama lengkap</label>
+                            <input type="text" id="nama_user" name="namel" class="form-control" placeholder="Rp">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputState">level user</label>
+                                <select name="level" id="level_user" class="form-control">
+                                    <option selected>Choose...</option>
+                                    <option value="1">owner</option>
+                                    <option value="2">admin</option>
+                                    <option value="3">kasir</option>
+                                    <option value="4">waiter</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputAddress2">foto user</label>
+                                <input type="file" name="foto" class="form-control-file">
+                                <h6>(masukan foto jika ingin merubah)</h6>
+                                <input type="text" id="foto_user" name="fot_men" class="form-control" hidden>
+                            </div>
+                        </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
-                    <button type="submit" class="btn btn-primary">iya</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">edit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end insert user Modal -->
+    <!-- end edit user Modal -->
 
     <!-- delete menu modal -->
     <div class="modal fade" id="hapus-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -232,7 +256,7 @@
                 <div class="modal-body">anda yakin menghapus data ini?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
-                    <?php echo anchor('ekantin_controller/admin_deleteuser/' . $users->id_user, '<button type="button" class="btn btn-danger">ya</button>') ?>
+                    <?php echo anchor('ekantin_controller/admin_deleteuser/' . $orders->id_user, '<button type="button" class="btn btn-danger">ya</button>') ?>
                 </div>
             </div>
         </div>
@@ -252,18 +276,17 @@
     <!-- script edit data -->
     <script>
         $(document).ready(function() {
-            $('#konfirm_data').on('show.bs.modal', function(event) {
+            $('#edit-data').on('show.bs.modal', function(event) {
                 var div = $(event.relatedTarget)
                 var modal = $(this)
 
-                modal.find('#id_pesanan').attr("value", div.data('id'));
+                modal.find('#id_user').attr("value", div.data('id'));
                 modal.find('#user_name').attr("value", div.data('usernama'));
-                modal.find('#nama_pemesan').attr("value", div.data('pemesan'));
-                modal.find('#jml_pesan').attr("value", div.data('jumlah'));
+                modal.find('#password_user').attr("value", div.data('pw'));
+                modal.find('#nama_user').attr("value", div.data('nama'));
                 modal.find('#level_user').attr("value", div.data('level'));
-                modal.find('#menu').attr("value", div.data('masakan'));
-                modal.find('#har_men').attr("value", div.data('harga'));
-                modal.find('#ket').attr("value", div.data('keterangan'));
+                modal.find('#foto_user').attr("value", div.data('gambar'));
+                modal.find('#gambar_user').attr("value", div.data('pict'));
             });
         });
     </script>

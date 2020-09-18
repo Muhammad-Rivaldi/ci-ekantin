@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ekantin - admin level</title>
+    <title>ekantin - admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php echo base_url('asset/vendor/fontawesome-free/css/all.css') ?>" rel="stylesheet" type="text/css">
@@ -47,10 +47,13 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Level</h1>
-                        <a href="#" data-toggle="modal" data-target="#insert_data" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white"></i> level</a>
+                        <h1 class="h3 mb-0 text-gray-800">transaksi</h1>
                     </div>
                     <!-- end Page Heading -->
+
+                    <!-- alert -->
+                    <?= $this->session->flashdata('modal') ?>
+                    <!-- end alert -->
 
                     <!-- Content Row -->
                     <div class="row">
@@ -72,34 +75,44 @@
                                             <thead>
                                                 <tr>
                                                     <th>no</th>
-                                                    <th>ID level</th>
-                                                    <th>nama level</th>
-                                                    <th>modifikasi</th>
+                                                    <th>ID transaksi</th>
+                                                    <th>ID user</th>
+                                                    <th>ID order</th>
+                                                    <th>nama pemesan</th>
+                                                    <th>menu</th>
+                                                    <th>harga</th>
+                                                    <th>jumlah pesan</th>
+                                                    <th>total bayar</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
-                                                <th>no</th>
-                                                    <th>ID level</th>
-                                                    <th>nama level</th>
-                                                    <th>modifikasi</th>
+                                                    <th>no</th>
+                                                    <th>ID transaksi</th>
+                                                    <th>ID user</th>
+                                                    <th>ID order</th>
+                                                    <th>nama pemesan</th>
+                                                    <th>menu</th>
+                                                    <th>harga</th>
+                                                    <th>jumlah pesan</th>
+                                                    <th>total bayar</th>
                                                 </tr>
                                             </tfoot>
                                             <?php
                                             $no = 1;
-                                            foreach ($level as $orders) {
+                                            foreach ($transaksi as $orders) {
                                             ?>
                                                 <tbody>
                                                     <tr>
                                                         <td><?php echo $no++ ?></td>
-                                                        <td><?php echo $orders->id_level ?></td>
-                                                        <td><?php echo $orders->nama_level ?></td>
-                                                        <td>
-                                                            <a class="btn btn-sm btn-primary" href="javascript:;" data-toggle="modal" data-target="#edit-data">
-                                                                <i class="fa fa-search-plus"></i><span>edit</span>
-                                                            </a>
-                                                            <?php echo anchor('ekantin_controller/admin_deletemenu/' . $orders->id_level, '<button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>delete</button>') ?>
-                                                        </td>
+                                                        <td><?php echo $orders->id_transaksi ?></td>
+                                                        <td><?php echo $orders->id_user ?></td>
+                                                        <td><?php echo $orders->id_order ?></td>
+                                                        <td><?php echo $orders->nama_pemesan ?></td>
+                                                        <td><?php echo $orders->menu ?></td>
+                                                        <td><?php echo $orders->harga ?></td>
+                                                        <td><?php echo $orders->jumlah_pesan ?></td>
+                                                        <td><?php echo $orders->total_bayar ?></td>
                                                     </tr>
                                                 </tbody>
                                             <?php
@@ -159,27 +172,56 @@
     </div>
     <!-- end Logout Modal -->
 
-    <!-- insert menu Modal-->
-    <div class="modal fade" id="insert_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- insert user Modal-->
+    <div class="modal fade" id="konfirm_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">insert menu</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">insert user</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="" method="post"></form>
+                <div class="modal-body"> konfirmasi pembayaran ini?
+                    <form action="<?php echo site_url('ekantin_controller/kasir_bayar') ?>" method="post" enctype="multipart/form-data">
+                        <input type="text" id="id_order" name="order" class="form-control" hidden>
+                        <input type="text" id="user_name" name="usname" class="form-control" hidden>
+                        <input type="text" id="nampes" name="pemesan" class="form-control" hidden>
+                        <input type="text" id="jml_pesan" name="jum" class="form-control" hidden>
+                        <input type="text" id="level_user" name="level_id" class="form-control" hidden>
+                        <input type="text" id="menu" name="nama_menu" class="form-control" hidden>
+                        <input type="text" id="har_men" name="harga_menu" class="form-control" hidden>
+                        <input type="text" id="ket" name="ket_menu" class="form-control" hidden>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">insert</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
+                    <button type="submit" class="btn btn-primary">iya</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end insert menu Modal -->
+    <!-- end insert user Modal -->
+
+    <!-- delete menu modal -->
+    <div class="modal fade" id="hapus-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">confirm data?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">anda yakin menghapus data ini?</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
+                    <?php echo anchor('ekantin_controller/admin_deleteuser/' . $users->id_user, '<button type="button" class="btn btn-danger">ya</button>') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end delete menu modal -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('asset/vendor/jquery/jquery.js') ?>"></script>
@@ -191,12 +233,25 @@
     <!-- Custom scripts for all pages-->
     <script src="<?php echo base_url('asset/js/sb-admin-2.js') ?>"></script>
 
-    <!-- Page level plugins -->
-    <script src="<?php echo base_url('asset/vendor/chart.js/Chart.js') ?>"></script>
+    <!-- script edit data -->
+    <script>
+        $(document).ready(function() {
+            $('#edit-data').on('show.bs.modal', function(event) {
+                var div = $(event.relatedTarget)
+                var modal = $(this)
 
-    <!-- Page level custom scripts -->
-    <script src="<?php echo base_url('asset/js/demo/chart-area-demo.js') ?>"></script>
-    <script src="<?php echo base_url('asset/js/demo/chart-pie-demo.js') ?>"></script>
+                modal.find('#id_order').attr("value", div.data('id'));
+                modal.find('#user_name').attr("value", div.data('usernama'));
+                modal.find('#nama_pemesan').attr("value", div.data('pemesan'));
+                modal.find('#jml_pesan').attr("value", div.data('jumlah'));
+                modal.find('#level_user').attr("value", div.data('level'));
+                modal.find('#menu').attr("value", div.data('masakan'));
+                modal.find('#har_men').attr("value", div.data('harga'));
+                modal.find('#ket').attr("value", div.data('keterangan'));
+            });
+        });
+    </script>
+    <!-- end script edit data -->
 
 </body>
 

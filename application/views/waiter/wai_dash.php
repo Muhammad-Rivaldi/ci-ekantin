@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ekantin - Dashboard Admin</title>
+    <title>ekantin - waiter</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?php echo base_url('asset/vendor/fontawesome-free/css/all.css') ?>" rel="stylesheet" type="text/css">
@@ -48,7 +48,6 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Menu</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
                     <!-- end page heading -->
 
@@ -72,7 +71,7 @@
                                         $no = 1;
                                         foreach ($menu as $data_menu) {
                                         ?>
-                                            <div class="col-lg-4 mb-4">
+                                            <div class="col-lg-3 mb-3">
                                                 <div class="card" style="width: 18rem;">
                                                     <img src="<?php echo base_url('asset/foto-menu/') . $data_menu->foto_menu ?>" class="card-img-top">
                                                     <div class="card-body">
@@ -80,7 +79,13 @@
                                                         <h5 class="card-title"><?php echo $data_menu->jenis_menu ?></h5>
                                                         <h5 class="card-title">Rp<?php echo $data_menu->harga ?></h5>
                                                         <h6 class="card-title"><?php echo $data_menu->status_menu ?></h6>
-                                                        <a class="btn btn-sm btn-primary" href="<?php echo site_url('ekantin_waiter/waiter_insertorder') ?>"><i class="fas fa-shopping-cart"></i>pesan</a>
+                                                        <h6 class="card-title" hidden><?php echo $data_menu->id_masakan ?></h6>
+                                                        <a class="btn btn-lg btn-primary text-white" href="javascript:;" data-toggle="modal" data-target="#insert_data" 
+                                                        data-menu="<?= $data_menu->nama_menu ?>" 
+                                                        data-harga="<?= $data_menu->harga ?>" 
+                                                        data-jenis="<?=$data_menu->jenis_menu?>">
+                                                            <i class="fas fa-shopping-cart"></i>pesan
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -120,6 +125,61 @@
     </a>
     <!-- end Scroll to Top Button -->
 
+    <!-- insert menu Modal-->
+    <div class="modal fade" id="insert_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">pesan menu disini</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="<?php echo site_url('ekantin_waiter/waiter_insertorder') ?>" method="post" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">nomor meja</label>
+                                <input type="text" name="nomej" id="nomor_meja" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">atas nama</label>
+                                <input type="text" name="nama_pesan" class="form-control" id="inputEmail4">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">nama menu</label>
+                            <input type="text" name="nam_men" id="nama_menu" class="form-control" id="inputEmail4" >
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail4">jenis menu</label>
+                            <input type="text" name="jen_men" id="jenis_menu" class="form-control" id="inputEmail4" >
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">harga</label>
+                            <input type="text" name="harga" id="harga_menu" class="form-control" id="inputAddress" placeholder="Rp" >
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputAddress2">jumlah pesan</label>
+                                <input type="number" name="jumlah_pesan" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputState">keterangan menu</label>
+                                <textarea name="keterangan" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end insert menu Modal -->
+
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -155,6 +215,21 @@
     <!-- Page level custom scripts -->
     <script src="<?php echo base_url('asset/js/demo/chart-area-demo.js') ?>"></script>
     <script src="<?php echo base_url('asset/js/demo/chart-pie-demo.js') ?>"></script>
+
+    <!-- script edit data -->
+    <script>
+        $(document).ready(function() {
+            $('#insert_data').on('show.bs.modal', function(event) {
+                var div = $(event.relatedTarget)
+                var modal = $(this)
+
+                modal.find('#nama_menu').attr("value", div.data('menu'));
+                modal.find('#harga_menu').attr("value", div.data('harga'));
+                modal.find('#jenis_menu').attr("value", div.data('jenis'));
+            });
+        });
+    </script>
+    <!-- end script edit data -->
 
 </body>
 

@@ -183,6 +183,60 @@ class model_system extends CI_Model
         redirect("ekantin_controller/admin_users");
     }
 
+    // insert order
+    public function insert_order()
+    {
+        $data = array (
+            'id_order' => null,
+            'no_meja' => $this->input->post('nomej'),
+            'nama_pemesan' => $this->input->post('nama_pesan'),
+            'jumlah_pesan' => $this->input->post('jumlah_pesan'),
+            'id_user' => $this->session->userdata('id_waiter'),
+            'nama_masakan' => $this->input->post('nam_men'),
+            'harga' => $this->input->post('harga'),
+            'keterangan' => $this->input->post('keterangan'),
+            'status_order' => 'proses'
+        );
+        echo $data;
+        $this->db->set('created_at', 'NOW()', FALSE);
+        $this->db->insert('orders', $data);
+        $this->session->set_flashdata('modal', '<div class="alert alert-success" role="alert"> Data Berhasil ditambahkan <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+        redirect("ekantin_waiter/waiter_order");
+    }
+
+    // pembayaran
+    public function bayar()
+    {
+        $id = $this->input->post('order_id');
+        $harga = $this->input->post('harga_menu');
+        $jml_pesan = $this->input->post('jum');
+        $total = $harga * $jml_pesan;
+        $data = array (
+            'id_transaksi' => null,
+            'id_user' => $this->input->post('level_id'),
+            'id_order' => $id,
+            'nama_pemesan' => $this->input->post('pemesan'),
+            'menu' => $this->input->post('nama_menu'),
+            'harga' => $harga,
+            'jumlah_pesan' => $jml_pesan,
+            'total_bayar' => $total
+        );
+        $data2 = array (
+            'status_order' => 'selesai'
+        );
+        echo $data;
+        $this->db->set('created_at', 'NOW()', FALSE);
+        $this->db->insert('transaksis', $data);
+        $this->session->set_flashdata('modal', '<div class="alert alert-success" role="alert"> Data selesai transaksi <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+
+        $this->db->set('updated_at', 'NOW()', FALSE);
+        $this->db->set($data2);
+        $this->db->where('id_order',$id);
+        $this->db->update('orders');
+
+        redirect("ekantin_kasir/kasir_dash");
+    }
+
     // tampil data menu
     public function tampil_menu()
     {
@@ -204,10 +258,17 @@ class model_system extends CI_Model
         return $query->result();
     }
 
+    // tampil data level
+    public function tampil_level()
+    {
+        $query = $this->db->query('SELECT * FROM `levels`');
+        return $query->result();
+    }
+
     // tampil data order
     public function tampil_order()
     {
-        $query = $this->db->query('SELECT * FROM `orders`');
+        $query = $this->db->query('SELECT * FROM `orders` WHERE `status_order` = "proses"');
         return $query->result();
     }
 }

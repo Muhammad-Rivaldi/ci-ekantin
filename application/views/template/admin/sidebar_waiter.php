@@ -25,7 +25,7 @@
 
     <!-- Nav Item - pemesanan -->
     <li class="nav-item <?php echo $this->uri->segment(2) == 'waiter_order' ? 'active': '' ?>">
-        <a class="nav-link" href="<?php echo site_url('ekantin_controller/waiter_order') ?>">
+        <a class="nav-link" href="<?php echo site_url('ekantin_waiter/waiter_order') ?>">
             <i class="fas fa-info-circle"></i>
             <span>pemesanan</span></a>
     </li>

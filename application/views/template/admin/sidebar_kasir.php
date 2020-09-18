@@ -24,8 +24,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - pemesanan -->
-    <li class="nav-item <?php echo $this->uri->segment(2) == 'waiter_order' ? 'active': '' ?>">
-        <a class="nav-link" href="<?php echo site_url('ekantin_kasir/waiter_order') ?>">
+    <li class="nav-item <?php echo $this->uri->segment(2) == 'kasir_payment' ? 'active': '' ?>">
+        <a class="nav-link" href="<?php echo site_url('ekantin_kasir/kasir_payment') ?>">
             <i class="fas fa-info-circle"></i>
             <span>transaksi</span></a>
     </li>

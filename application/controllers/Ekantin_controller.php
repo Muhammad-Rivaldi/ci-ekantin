@@ -92,9 +92,11 @@ class Ekantin_controller extends CI_Controller
                 }
             } elseif ($role == '4') {
                 $namauser = $this->model_system->cek_login($where)->row(0)->nama_user;
+                $role = $this->model_system->cek_login($where)->row(0)->id_level;
                 $data_session = array(
                     'nama_user' => $namauser,
                     'username' => $usernames,
+                    'id_waiter' => $role,
                     'status' => 'login'
                 );
                 $this->session->set_userdata($data_session);
@@ -142,7 +144,22 @@ class Ekantin_controller extends CI_Controller
     // membuka halaman menu level
     public function admin_levels()
     {
-        $this->load->view('admin/level');
+        $data['level'] = $this->model_system->tampil_level();
+        $this->load->view('admin/level',$data);
+    }
+
+    // membuka halaman menu pemesanan
+    public function admin_order()
+    {
+        $data['order'] = $this->model_system->tampil_order();
+        $this->load->view('admin/pemesanan',$data);
+    }
+
+    // membuka halaman menu transaksi
+    public function admin_tran()
+    {
+        $data['transaksi'] = $this->model_system->tampil_tran();
+        $this->load->view('admin/transaksi',$data);
     }
 
     // insert data menu ke db
