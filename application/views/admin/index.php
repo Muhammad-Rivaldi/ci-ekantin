@@ -72,7 +72,7 @@
                     $no = 1;
                     foreach ($menu as $data_menu) {
                     ?>
-                      <div class="col-lg-4 mb-4">
+                      <div class="col-lg-3 mb-4">
                         <div class="card" style="width: 18rem;">
                           <img src="<?php echo base_url('asset/foto-menu/') . $data_menu->foto_menu ?>" class="card-img-top">
                           <div class="card-body">

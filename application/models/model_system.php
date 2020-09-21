@@ -195,7 +195,7 @@ class model_system extends CI_Model
             'nama_masakan' => $this->input->post('nam_men'),
             'harga' => $this->input->post('harga'),
             'keterangan' => $this->input->post('keterangan'),
-            'status_order' => 'proses'
+            'status_order' => 'dalam order'
         );
         echo $data;
         $this->db->set('created_at', 'NOW()', FALSE);
@@ -219,10 +219,12 @@ class model_system extends CI_Model
             'menu' => $this->input->post('nama_menu'),
             'harga' => $harga,
             'jumlah_pesan' => $jml_pesan,
-            'total_bayar' => $total
+            'total_bayar' => $total,
+            'status_transaksi' => 'dalam transaksi'
+
         );
         $data2 = array (
-            'status_order' => 'selesai'
+            'status_order' => 'selesai order'
         );
         echo $data;
         $this->db->set('created_at', 'NOW()', FALSE);
@@ -258,6 +260,20 @@ class model_system extends CI_Model
         return $query->result();
     }
 
+    // tampil data transaksi berdasarkan status
+    public function transaksi()
+    {
+        $query = $this->db->query('SELECT * FROM `transaksis` WHERE `status_transaksi` = "dalam transaksi"');
+        return $query->result();
+    }
+
+    // hitung total pembayaran
+    public function total_pembayaran()
+    {
+        $query = $this->db->query('SELECT SUM(`total_bayar`) AS total FROM `transaksis` WHERE `status_transaksi` = "dalam transaksi"');
+        return $query->result();
+    }
+
     // tampil data level
     public function tampil_level()
     {
@@ -268,7 +284,7 @@ class model_system extends CI_Model
     // tampil data order
     public function tampil_order()
     {
-        $query = $this->db->query('SELECT * FROM `orders` WHERE `status_order` = "proses"');
+        $query = $this->db->query('SELECT * FROM `orders` WHERE `status_order` = "dalam order"');
         return $query->result();
     }
 }

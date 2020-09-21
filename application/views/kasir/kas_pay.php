@@ -119,9 +119,12 @@
                                             }
                                             ?>
                                         </table>
+                                        <!-- button tampil modal struk -->
+                                    <a href="#" data-toggle="modal" data-target="#struk" data-nama="<?=$orders->nama_pemesan?>" class="d-none d-sm-inline-block btn btn-md btn-success shadow-sm"><i class="fas fa-cash-register"></i> invoice</a>
                                     </div>
                                 </div>
                                 <!-- end card body -->
+
 
                             </div>
                         </div>
@@ -172,56 +175,73 @@
     </div>
     <!-- end Logout Modal -->
 
-    <!-- insert user Modal-->
-    <div class="modal fade" id="konfirm_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- invoice Modal-->
+    <div class="modal fade" id="struk" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">insert user</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">invoice</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body"> konfirmasi pembayaran ini?
-                    <form action="<?php echo site_url('ekantin_controller/kasir_bayar') ?>" method="post" enctype="multipart/form-data">
-                        <input type="text" id="id_order" name="order" class="form-control" hidden>
-                        <input type="text" id="user_name" name="usname" class="form-control" hidden>
-                        <input type="text" id="nampes" name="pemesan" class="form-control" hidden>
-                        <input type="text" id="jml_pesan" name="jum" class="form-control" hidden>
-                        <input type="text" id="level_user" name="level_id" class="form-control" hidden>
-                        <input type="text" id="menu" name="nama_menu" class="form-control" hidden>
-                        <input type="text" id="har_men" name="harga_menu" class="form-control" hidden>
-                        <input type="text" id="ket" name="ket_menu" class="form-control" hidden>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
-                    <button type="submit" class="btn btn-primary">iya</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end insert user Modal -->
+                <div class="modal-body">
+                <div class="table-responsive">
+                                        <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>menu</th>
+                                                    <th>harga</th>
+                                                    <th>jumlah pesan</th>
+                                                    <th>subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>menu</th>
+                                                    <th>harga</th>
+                                                    <th>jumlah pesan</th>
+                                                    <th>subtotal</th>
+                                                </tr>
+                                            </tfoot>
+                                            <?php
+                                            $no = 1;
+                                            foreach ($transaksi as $orders) {
+                                            ?>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><?php echo $orders->menu ?></td>
+                                                        <td><?php echo $orders->harga ?></td>
+                                                        <td><?php echo $orders->jumlah_pesan ?></td>
+                                                        <td><?php echo $orders->total_bayar ?></td>
+                                                    </tr>
+                                                </tbody>
+                                            <?php
+                                            }
+                                            ?>
+                                        </table>
+                                    </div>
 
-    <!-- delete menu modal -->
-    <div class="modal fade" id="hapus-data" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">confirm data?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
+                    <div class="row">
+                        <div class="col col-md-4">
+                            <span>total keseluruhan</span>
+                        </div>
+                        <div class="col col-md-4">
+                            <span>:</span>
+                        </div>
+                        <div class="col col-md-4">
+                            <span><?php print_r($total_bayar) ?></span>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="modal-body">anda yakin menghapus data ini?</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">tidak</button>
-                    <?php echo anchor('ekantin_controller/admin_deleteuser/' . $users->id_user, '<button type="button" class="btn btn-danger">ya</button>') ?>
+                    <a class="btn btn-primary" href="<?php echo base_url('ekantin_controller/logout') ?>">ok    </a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end delete menu modal -->
+    <!-- end invoice Modal -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo base_url('asset/vendor/jquery/jquery.js') ?>"></script>
@@ -240,14 +260,7 @@
                 var div = $(event.relatedTarget)
                 var modal = $(this)
 
-                modal.find('#id_order').attr("value", div.data('id'));
-                modal.find('#user_name').attr("value", div.data('usernama'));
-                modal.find('#nama_pemesan').attr("value", div.data('pemesan'));
-                modal.find('#jml_pesan').attr("value", div.data('jumlah'));
-                modal.find('#level_user').attr("value", div.data('level'));
-                modal.find('#menu').attr("value", div.data('masakan'));
-                modal.find('#har_men').attr("value", div.data('harga'));
-                modal.find('#ket').attr("value", div.data('keterangan'));
+                modal.find('#nama_pemesan').attr("value", div.data('nama'));
             });
         });
     </script>
