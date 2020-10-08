@@ -149,15 +149,15 @@
                         </div>
                         <div class="form-group">
                             <label for="inputEmail4">nama menu</label>
-                            <input type="text" name="nam_men" id="nama_menu" class="form-control" id="inputEmail4" >
+                            <input type="text" name="nam_men" id="nama_menu" class="form-control" id="inputEmail4" disabled>
                         </div>
                         <div class="form-group">
                             <label for="inputEmail4">jenis menu</label>
-                            <input type="text" name="jen_men" id="jenis_menu" class="form-control" id="inputEmail4" >
+                            <input type="text" name="jen_men" id="jenis_menu" class="form-control" id="inputEmail4" disabled >
                         </div>
                         <div class="form-group">
                             <label for="inputAddress">harga</label>
-                            <input type="text" name="harga" id="harga_menu" class="form-control" id="inputAddress" placeholder="Rp" >
+                            <input type="text" name="harga" id="harga_menu" class="form-control" id="inputAddress" placeholder="Rp" disabledx>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">

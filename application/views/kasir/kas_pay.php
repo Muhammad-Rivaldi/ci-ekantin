@@ -236,7 +236,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-primary" href="<?php echo base_url('ekantin_controller/logout') ?>">ok    </a>
+                    <a class="btn btn-primary" href="<?php echo base_url('ekantin_kasir/checkout') ?>">ok</a>
                 </div>
             </div>
         </div>

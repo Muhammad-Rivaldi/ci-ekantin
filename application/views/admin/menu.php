@@ -305,7 +305,7 @@
         $('#edit-data').on('show.bs.modal', function(event) {
           var div = $(event.relatedTarget)
           var modal = $(this)
-
+          
           modal.find('#id_menu').attr("value", div.data('id'));
           modal.find('#nama_menu').attr("value", div.data('nama'));
           modal.find('#jenis_menu').attr("value", div.data('jenis'));

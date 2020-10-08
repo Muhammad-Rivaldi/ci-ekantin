@@ -46,5 +46,11 @@ class Ekantin_kasir extends CI_Controller
     {
         $this->model_system->bayar();
     }
+
+    // checkout transaksi
+    public function checkout()
+    {
+        $this->model_system->finish();
+    }
 }
 

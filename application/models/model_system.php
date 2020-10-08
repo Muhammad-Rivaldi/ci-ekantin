@@ -221,11 +221,12 @@ class model_system extends CI_Model
             'jumlah_pesan' => $jml_pesan,
             'total_bayar' => $total,
             'status_transaksi' => 'dalam transaksi'
-
         );
+
         $data2 = array (
             'status_order' => 'selesai order'
         );
+        
         echo $data;
         $this->db->set('created_at', 'NOW()', FALSE);
         $this->db->insert('transaksis', $data);
@@ -236,6 +237,20 @@ class model_system extends CI_Model
         $this->db->where('id_order',$id);
         $this->db->update('orders');
 
+        redirect("ekantin_kasir/kasir_dash");
+    }
+
+    // finish
+    
+    function finish()
+    {
+        $data = array (
+            "status_transaksi" => "selesai transaksi"
+        );
+
+        $this->db->set('updated_at', 'NOW()', FALSE);
+        $this->db->set($data);
+        $this->db->update('transaksis');
         redirect("ekantin_kasir/kasir_dash");
     }
 
